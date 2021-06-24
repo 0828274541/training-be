@@ -10,4 +10,3 @@ router.use('/auth', loginRouter);
 router.use('/', handlerVerifyUser, crudRouter);
 
 export default router;
-//cuong3

@@ -14,9 +14,12 @@ const bookSchema = new Schema({
   author: { type: String, required: true },
   owner: { type: Schema.ObjectId, ref: 'User', required: true },
   cover: { type: String },
+  categories: { type: Schema.ObjectId, ref: 'Category', required: true },
 });
 bookSchema.plugin(paginate);
 
-const BookSchema = mongoose.model('Book', bookSchema);
+mongoose.model('Book', bookSchema).createCollection();
 
-module.exports = BookSchema;
+const BookModel = mongoose.model('Book', bookSchema);
+
+module.exports = BookModel;

@@ -26,6 +26,9 @@ acl.allow([{
     }, {
         resources: '/apis/categories/',
         permissions: '*'
+    }, {
+        resources: '/apis/categories/:_id',
+        permissions: '*'
     }]
 }, {
     roles: [USERS.ROLE.CONTRIBUTOR],

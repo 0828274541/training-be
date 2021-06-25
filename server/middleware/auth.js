@@ -31,9 +31,7 @@ module.exports = async function (req, res, next) {
           data: null
         })
       }
-      console.log(user.lastLogout)
-      console.log("-------")
-      console.log(new Date(verified.lastLogout))
+
       if (user.lastLogout > new Date(verified.lastLogout)) {
         
         return res.json({

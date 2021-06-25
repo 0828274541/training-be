@@ -26,6 +26,9 @@ const userSchema = new Schema({
 });
 userSchema.plugin(paginate);
 
+
+mongoose.model('User', userSchema).createCollection();
+
 const UserModel = mongoose.model('User', userSchema);
 
 module.exports = UserModel;

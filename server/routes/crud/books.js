@@ -62,7 +62,7 @@ router.put('/:_id', handlerCheckPermission, async (req, res) => {
   }
 })
 
-/* DELETE books delete. */
+/* DELETE books delete... */
 router.delete('/:_id', handlerCheckPermission, async (req, res) => {
   try {
     const _id = req.params._id;

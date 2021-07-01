@@ -22,6 +22,7 @@ const MESSAGES = {
 
 const KEY = 'KhiemLT@123!@#!@%'
 
+const COVER_PATH = "public/covers"
 module.exports = {
   USERS,
   MESSAGES,

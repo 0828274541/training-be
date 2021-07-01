@@ -18,13 +18,13 @@ router.get('/', handlerCheckPermission, async function (req, res) {
       page: page, limit: limit, sort: sort
     };
 
-    const query = {}  
+    const query = {}
     if (condition.keyword) {
       query.title = new RegExp(condition.keyword)
     }
 
     const categories = await CategoryModel.paginate(query, options);
-    return res.json({ categories });
+    return res.json({ code: 200, categories });
 
     // const totalDocs = await CategoryModel.countDocuments();
     // const categories = await CategoryModel.find().sort(sort).skip((page - 1) * limit).limit(limit).exec();

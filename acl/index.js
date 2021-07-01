@@ -24,6 +24,9 @@ acl.allow([{
         resources: '/apis/books/',
         permissions: '*'
     }, {
+        resources: '/apis/books/search',
+        permissions: '*'
+    }, {
         resources: '/apis/categories/',
         permissions: '*'
     }, {

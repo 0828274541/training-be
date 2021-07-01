@@ -15,9 +15,9 @@ router.post('/register', async function (req, res) {
       const hash = await bcryptjs.hash(password, 8);
       const User = new UserModel({ username, password: hash, firstName, lastName });
       const userCreate = await User.save();
-      return res.json({ code: 200, message: null, data: { userCreate } });
+      return res.json({ code: 200, message: "Register Success", data: { userCreate } });
     } else {
-      return res.json({ code: 200, message: MESSAGES.USERNAME_EXISTED, data: null })
+      return res.json({ code: 400, message: MESSAGES.USERNAME_EXISTED, data: null })
     }
   } catch (err) {
     return res.json({ code: 400, message: err.message, data: null });
@@ -27,7 +27,7 @@ router.post('/register', async function (req, res) {
 router.post('/login', async function (req, res) {
   try {
     const user = await UserModel.findOne({ username: req.body.username });
-    if (user === null) { return res.json({ code: 401, message: MESSAGES.USERNAME_WRONG, data: null }) };
+    if (user === null) { return res.json({ code: 400, message: MESSAGES.USERNAME_WRONG, data: null }) };
     const result = await bcryptjs.compare(req.body.password, user.password);
     if (result) {
       var token = jwt.sign({ _id: user._id, lastLogout: user.lastLogout, lastChangedPassword: user.lastChangedPassword }, KEY);

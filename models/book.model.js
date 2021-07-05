@@ -14,7 +14,7 @@ const bookSchema = new Schema({
   author: { type: String, required: true },
   owner: { type: Schema.ObjectId, ref: 'User', required: true },
   cover: [{ type: String }],
-  category: { type: Schema.ObjectId, ref: 'Category', required: true },
+  category: { type: Schema.ObjectId, ref: 'Category' },
 });
 bookSchema.plugin(paginate);
 

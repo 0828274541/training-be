@@ -13,44 +13,78 @@ const upload = multer({ dest: COVER_PATH })
 /* GET books listing. */
 router.post('/search', handlerCheckPermission, async function (req, res) {
   try {
-    debugger
     var condition = req.body.payload || {};
     var page = condition.page || 1;
     var limit = getLimit(condition);
     //  var sort = getSort(condition);
 
-    //var categories = ({ path: 'category', match: { _id: mongoose.Types.ObjectId(req.body.condition.category) } });
     var options = {
       page: page, limit: limit,
-      populate: [{
+      populate: {
         path: 'category',
-      }],
+      },
     };
 
-
-
     const query = {}
+
+    if (condition.keyword) {
+      query.title = { $regex: new RegExp(condition.keyword), $options: 'i' }
+    };
+
     if (condition.categoryId && condition.categoryId !== 'all') {
       query.category = condition.categoryId
     }
 
     const books = await BookModel.paginate(query, options);
-    return res.json({ code: 200, books });
-
-    // const totalDocs = await CategoryModel.countDocuments();
-    // const books = await CategoryModel.find().sort(sort).skip((page - 1) * limit).limit(limit).exec();
-    // return res.json({ data: books, totalDocs, page, limit });
+    return res.json({ code: 200, message: "SUCCESS", books });
   } catch (err) {
     return res.json({ code: 400, errorMess: err, data: null });
   }
 });
 
+router.post('/paging', handlerCheckPermission, async function (req, res) {
+  try {
+    var condition = req.body || {};
+    var page = condition.page || 1;
+    var limit = getLimit(condition);
+    var sort = getSort(condition);
+
+    var options = {
+      page: page, limit: limit, sort: sort,
+      populate: {
+        path: 'category owner',
+      },
+    };
+
+    const query = {}
+
+    //search trong page home
+    if (condition.keyword) {
+      query.title = { $regex: new RegExp(condition.keyword), $options: 'i' }
+    };
+
+    //search title trong page admin
+    if (condition.search) {
+      query.$or = [
+        { title: { $regex: condition.search, $options: 'i' } },
+        { description: { $regex: condition.search, $options: 'i' } },
+        { author: { $regex: condition.search, $options: 'i' } },
+      ]
+    };
+    //filter category
+    if (condition.categoryId && condition.categoryId !== 'all') {
+      query.category = condition.categoryId
+    }
+
+    const books = await BookModel.paginate(query, options);
+    return res.json({ code: 200, message: "SUCCESS", books });
+  } catch (err) {
+    return res.json({ code: 400, errorMess: err, data: null });
+  }
+});
 /* POST books create. */
 router.post("/", handlerCheckPermission, upload.array("cover", 4), async function (req, res) {
   try {
-    // if (!req.files) {
-    //   return res.json({ code: 400, errorMess: err, data: null });
-    // }
     const coverArr = []
     req.files.forEach(item => {
       let filePath = `${COVER_PATH}/${new Date().getTime()}_${item.originalname}`;
@@ -62,7 +96,7 @@ router.post("/", handlerCheckPermission, upload.array("cover", 4), async functio
       );
       coverArr.push(filePath);
     });
-    const { title, description, author, owner, category } = req.body;
+    const { title, description, author, category } = req.body;
     const bookModel = new BookModel({
       title,
       description,
@@ -72,7 +106,18 @@ router.post("/", handlerCheckPermission, upload.array("cover", 4), async functio
       category,
     });
     const book = await bookModel.save();
-    return res.json({ code: 200, errorMess: "", data: { book } });
+    return res.json({ code: 200, message: "ADD BOOK SUCCESS", data: { book } });
+  } catch (err) {
+    return res.json({ code: 400, errorMess: err, data: null });
+  }
+});
+/* POST books find by id. */
+router.post("/findById", handlerCheckPermission, async function (req, res) {
+  try {
+    debugger
+    const bookId = req.body.bookId
+    const book = await BookModel.find({ _id: bookId });
+    return res.json({ code: 200, message: "FIND ONE BOOK SUCCESS", book });
   } catch (err) {
     return res.json({ code: 400, errorMess: err, data: null });
   }
@@ -123,20 +168,30 @@ router.put("/:_id", handlerCheckPermission, upload.array("cover", 4), async (req
         return BookModel.findById(_id);
       }
     );
-    return res.json({ code: 200, errorMess: "", data: { bookUpdate } });
+    return res.json({ code: 200, message: "UPDATE SUCCESS", data: { bookUpdate } });
   } catch (err) {
     return res.json({ code: 400, errorMess: err, data: null });
   }
 });
 
 /* DELETE books delete... */
-router.delete('/:_id', handlerCheckPermission, async (req, res) => {
+router.post('/delete', handlerCheckPermission, async (req, res) => {
   try {
-    const _id = req.params._id;
-    const book = await BookUpdate.findById(_id)
-    if (book) {
-      await BookUpdate.deleteOne({ _id: _id });
-      return res.json({ code: 200, errorMess: '', data: true });
+    const bookIds = req.body.bookIds
+    //Tim xem danh sach book co ton tai hay ko
+    const books = await BookModel.find(
+      { _id: { $in: bookIds } }
+    );
+    // xóa ảnh tập thể
+    for (let book of books) {
+      book.cover.forEach(item => {
+        fs.unlinkSync(item)
+      });
+    }
+
+    if (books) {
+      await BookModel.deleteMany({ _id: { $in: bookIds } });
+      return res.json({ code: 200, message: "Delete Success" });
     }
     return res.json({ code: 400, errorMess: MESSAGES.USERNAME_NOT_EXISTED, data: false });
   } catch (err) {

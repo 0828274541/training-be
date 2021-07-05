@@ -32,22 +32,22 @@ module.exports = async function (req, res, next) {
         })
       }
 
-      if (user.lastLogout > new Date(verified.lastLogout)) {
-        
-        return res.json({
-          code: 401,
-          message: MESSAGES.TOKEN_EXPIRED,
-          data: null
-        })
-      }
+      // if (user.lastLogout > new Date(verified.lastLogout)) {
 
-      if (user.lastChangedPassword > new Date(verified.lastChangedPassword)) {
-        return res.json({
-          code: 401,
-          message: MESSAGES.TOKEN_EXPIRED,
-          data: null
-        })
-      }
+      //   return res.json({
+      //     code: 401,
+      //     message: MESSAGES.TOKEN_EXPIRED,
+      //     data: null
+      //   })
+      // }
+
+      // if (user.lastChangedPassword > new Date(verified.lastChangedPassword)) {
+      //   return res.json({
+      //     code: 401,
+      //     message: MESSAGES.TOKEN_EXPIRED,
+      //     data: null
+      //   })
+      // }
 
       req._user = user;
       return next();

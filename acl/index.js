@@ -18,19 +18,34 @@ acl.allow([{
         resources: '/apis/users/',
         permissions: '*'
     }, {
-        resources: '/apis/users/:_id',
+        resources: '/apis/users/paging',
+        permissions: '*'
+    }, {
+        resources: '/apis/users/delete',
         permissions: '*'
     }, {
         resources: '/apis/books/',
         permissions: '*'
     }, {
+        resources: '/apis/books/:_id',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/findById',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/delete',
+        permissions: '*'
+    }, {
         resources: '/apis/books/search',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/paging',
         permissions: '*'
     }, {
         resources: '/apis/categories/',
         permissions: '*'
     }, {
-        resources: '/apis/categories/:_id',
+        resources: '/apis/categories/delete',
         permissions: '*'
     }]
 }, {

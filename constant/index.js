@@ -26,5 +26,6 @@ const COVER_PATH = "public/covers"
 module.exports = {
   USERS,
   MESSAGES,
-  KEY
+  KEY,
+  COVER_PATH
 }

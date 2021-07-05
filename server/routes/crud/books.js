@@ -116,7 +116,12 @@ router.post("/findById", handlerCheckPermission, async function (req, res) {
   try {
     debugger
     const bookId = req.body.bookId
-    const book = await BookModel.find({ _id: bookId });
+    var options = {
+      populate: {
+        path: 'category owner',
+      },
+    };
+    const book = await BookModel.find({ _id: bookId }).populate("category owner");
     return res.json({ code: 200, message: "FIND ONE BOOK SUCCESS", book });
   } catch (err) {
     return res.json({ code: 400, errorMess: err, data: null });

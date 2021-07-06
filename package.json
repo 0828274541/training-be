@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec babel-node ./bin/www"
+    "start": "babel-node ./bin/www"
   },
   "dependencies": {
     "@babel/preset-env": "^7.14.5",
@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
-    "@babel/node": "^7.14.5",
-    "nodemon": "^1.19.1"
+    "@babel/node": "^7.14.5"
   }
 }

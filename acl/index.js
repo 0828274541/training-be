@@ -51,12 +51,54 @@ acl.allow([{
 }, {
     roles: [USERS.ROLE.CONTRIBUTOR],
     allows: [{
+        resources: '/apis/users/',
+        permissions: '*'
+    }, {
         resources: '/apis/books/',
         permissions: '*'
     }, {
-        resources: '/apis/users/',
-        permissions: ['get']
+        resources: '/apis/books/:_id',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/findById',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/delete',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/search',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/paging',
+        permissions: '*'
+    }, {
+        resources: '/apis/categories/',
+        permissions: '*'
+    }, {
+        resources: '/apis/categories/delete',
+        permissions: '*'
     }]
+}, {
+    roles: [USERS.ROLE.NORMAL],
+    allows: [{
+        resources: '/apis/books/',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/:_id',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/findById',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/search',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/paging',
+        permissions: '*'
+    }, {
+        resources: '/apis/categories/',
+        permissions: '*'
+    },]
 }]);
 
 module.exports = acl;

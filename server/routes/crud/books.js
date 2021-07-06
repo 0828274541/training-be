@@ -75,6 +75,10 @@ router.post('/paging', handlerCheckPermission, async function (req, res) {
     if (condition.categoryId && condition.categoryId !== 'all') {
       query.category = condition.categoryId
     }
+    //
+    if (req._user.role[0] === 'contributor') {
+      query.owner = req._user._id
+    }
 
     const books = await BookModel.paginate(query, options);
     return res.json({ code: 200, message: "SUCCESS", books });

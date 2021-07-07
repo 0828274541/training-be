@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
-    "@babel/node": "^7.14.7",
-    "nodemon": "^1.19.1"
+    "@babel/node": "^7.14.7"
   }
 }

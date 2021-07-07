@@ -10,8 +10,8 @@ import { handleValidateError, handleNotFoundError } from './server/middleware/ha
 
 const connetMongoDB = async () => {
   try {
-    await mongoose.connect('mongodb+srv://cuong:Cuong123@cluster0.e5tg5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true });
-  //  await mongoose.connect('mongodb://localhost/myFirstDatabase', { useNewUrlParser: true });
+   // await mongoose.connect('mongodb+srv://cuong:Cuong123@cluster0.e5tg5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true });
+   await mongoose.connect('mongodb://localhost/myFirstDatabase', { useNewUrlParser: true });
   } catch (error) {
     console.error('connect MongoDb has error: ' + error);
   }

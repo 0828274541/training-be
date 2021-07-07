@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const mongoose = require("mongoose");
 const cors = require('cors');
-console.log(123, process.versions.node.split('.'));
 import logger from './core/logger';
 import acl from './acl/index';
 import apiRoute from './server/routes/index';

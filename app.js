@@ -1,22 +1,22 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const cors = require('cors');
 import logger from './core/logger';
 import acl from './acl/index';
 import apiRoute from './server/routes/index';
 import { handleValidateError, handleNotFoundError } from './server/middleware/handlerError';
 
-const connetMongoDB = async () => {
-  try {
-   await mongoose.connect('mongodb+srv://cuong:Cuong123@cluster0.e5tg5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true });
-  // await mongoose.connect('mongodb://localhost/myFirstDatabase', { useNewUrlParser: true });
-  } catch (error) {
-    console.error('connect MongoDb has error: ' + error);
-  }
-};
+// const connetMongoDB = async () => {
+//   try {
+//    await mongoose.connect('mongodb+srv://cuong:Cuong123@cluster0.e5tg5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true });
+//   // await mongoose.connect('mongodb://localhost/myFirstDatabase', { useNewUrlParser: true });
+//   } catch (error) {
+//     console.error('connect MongoDb has error: ' + error);
+//   }
+// };
 
-connetMongoDB();
+// connetMongoDB();
 
 const app = express();
 app.use(cors());

@@ -21,6 +21,9 @@ acl.allow([{
         resources: '/apis/users/paging',
         permissions: '*'
     }, {
+        resources: '/apis/users/:_id',
+        permissions: '*'
+    },  {
         resources: '/apis/users/delete',
         permissions: '*'
     }, {
@@ -45,6 +48,9 @@ acl.allow([{
         resources: '/apis/categories/',
         permissions: '*'
     }, {
+        resources: '/apis/categories/:_id',
+        permissions: '*'
+    }, {
         resources: '/apis/categories/delete',
         permissions: '*'
     }]
@@ -52,6 +58,9 @@ acl.allow([{
     roles: [USERS.ROLE.CONTRIBUTOR],
     allows: [{
         resources: '/apis/users/',
+        permissions: '*'
+    }, {
+        resources: '/apis/books/',
         permissions: '*'
     }, {
         resources: '/apis/books/',

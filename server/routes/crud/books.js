@@ -101,14 +101,26 @@ router.post("/", handlerCheckPermission, upload.array("cover", 4), async functio
       coverArr.push(filePath);
     });
     const { title, description, author, category } = req.body;
-    const bookModel = new BookModel({
-      title,
-      description,
-      author,
-      owner: req._user._id,
-      cover: coverArr,
-      category,
-    });
+    let data = {};
+    if (category != '0') {
+      data = {
+        title,
+        description,
+        author,
+        owner: req._user._id,
+        cover: coverArr,
+        category
+      };
+    } else {
+      data = {
+        title,
+        description,
+        author,
+        owner: req._user._id,
+        cover: coverArr
+      };
+    }
+    const bookModel = new BookModel(data);
     const book = await bookModel.save();
     return res.json({ code: 200, message: "ADD BOOK SUCCESS", data: { book } });
   } catch (err) {
@@ -143,7 +155,6 @@ router.put("/:_id", handlerCheckPermission, upload.array("cover", 4), async (req
     // kiem tra xem co file truyen len server hay ko
     // neu co thi update
     // neu ko co thi dung lai file cu
-    debugger
     if (req.files.length != 0) {
       book.cover.forEach(item => {
         fs.unlinkSync(item)
@@ -163,13 +174,13 @@ router.put("/:_id", handlerCheckPermission, upload.array("cover", 4), async (req
       bookModel.author = author
       bookModel.owner = req._user._id
       bookModel.cover = coverArr
-      bookModel.category = category
-
     } else {
       bookModel.title = title
       bookModel.description = description
       bookModel.author = author
       bookModel.owner = req._user._id
+    }
+    if(category !== '0') {
       bookModel.category = category
     }
     const bookUpdate = await BookModel.updateOne({ _id: _id }, bookModel).then(

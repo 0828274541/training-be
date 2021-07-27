@@ -55,9 +55,10 @@ router.post('/', handlerCheckPermission, async function (req, res) {
 });
 
 /* PUT users edit. */
-router.put('/', handlerCheckPermission, async (req, res) => {
+router.put('/:_id', handlerCheckPermission, async (req, res) => {
   try {
-    const { _id, username, password, firstName, lastName, roleUpdate } = req.body;
+    const { username, password, firstName, lastName, roleUpdate } = req.body;
+    const _id = req.params._id;
     const role = []
     role.push(roleUpdate)
     const payload = { username, firstName, lastName, role }
@@ -106,6 +107,17 @@ router.post('/delete', handlerCheckPermission, async (req, res) => {
     return res.json({ code: 400, errorMess: MESSAGES.USERNAME_NOT_EXISTED, data: false });
   } catch (err) {
     return res.json({ code: 400, errorMess: err, data: false });
+  }
+})
+
+/* GET users edit. */
+router.get('/:_id', handlerCheckPermission, async (req, res) => {
+  try {
+    const _id = req.params._id || {};
+    const users = await UserModel.findById(_id);
+    return res.json({ code: 200, message: "SUCCESS", users });
+  } catch (err) {
+    return res.json({ code: 400, errorMess: err, data: null });
   }
 })
 

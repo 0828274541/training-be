@@ -90,4 +90,14 @@ router.post('/delete', handlerCheckPermission, async (req, res) => {
   }
 })
 
+/* GET category edit. */
+router.get('/:_id', handlerCheckPermission, async (req, res) => {
+  try {
+    const _id = req.params._id || {};
+    const category = await CategoryModel.findById(_id);
+    return res.json({ code: 200, message: "SUCCESS", category });
+  } catch (err) {
+    return res.json({ code: 400, errorMess: err, data: null });
+  }
+})
 export default router;

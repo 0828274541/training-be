@@ -16,10 +16,10 @@ router.post('/search', handlerCheckPermission, async function (req, res) {
     var condition = req.body.payload || {};
     var page = condition.page || 1;
     var limit = getLimit(condition);
-    //  var sort = getSort(condition);
+    var sort = getSort(condition);
 
     var options = {
-      page: page, limit: limit,
+      page: page, limit: limit, sort: sort,
       populate: {
         path: 'category',
       },

@@ -92,7 +92,7 @@ router.post("/", handlerCheckPermission, upload.array("cover", 4), async functio
     const coverArr = []
     req.files.forEach(item => {
       let filePath = `${COVER_PATH}/${new Date().getTime()}_${item.originalname}`;
-      fs.rename(`${COVER_PATH}/${item.filename}`, filePath, async (err) => {
+      fs.rename(`${COVER_PATH}/${item.filename}`, filePath.replace(/\s+/g, ''), async (err) => {
         if (err) {
           return res.json({ code: 400, errorMess: err, data: null });
         }
@@ -157,7 +157,9 @@ router.put("/:_id", handlerCheckPermission, upload.array("cover", 4), async (req
     // neu ko co thi dung lai file cu
     if (req.files.length != 0) {
       book.cover.forEach(item => {
-        fs.unlinkSync(item)
+        if(fs.existsSync(item)){
+          fs.unlinkSync(item)
+        }
       });
       req.files.forEach(item => {
         let filePath = `${COVER_PATH}/${new Date().getTime()}_${item.originalname}`;
@@ -205,7 +207,9 @@ router.post('/delete', handlerCheckPermission, async (req, res) => {
     // xóa ảnh tập thể
     for (let book of books) {
       book.cover.forEach(item => {
+        if(fs.existsSync(item)){
         fs.unlinkSync(item)
+        }
       });
     }
 

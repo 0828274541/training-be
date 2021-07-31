@@ -67,7 +67,8 @@ export default function BookDetails({ onEventSubmit, book }) {
           handleChange,
           handleSubmit,
           touched,
-          values
+          values,
+          setFieldValue
         }) => (
           <form
             autoComplete="off"
@@ -129,6 +130,7 @@ export default function BookDetails({ onEventSubmit, book }) {
                       label="Last name"
                       name="author"
                       onChange={handleChange}
+                      setFieldValue={handleChange}
                       type="author"
                       value={values.author}
                       variant="outlined"
